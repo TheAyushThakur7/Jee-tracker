@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Personal JEE Main Physics + Chemistry progress tracker" />
+  <link rel="manifest" href="manifest.json" />
+  <title>JEE Main Physics + Chemistry Tracker</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --card: #121a2d;
+      --card-light: #17223a;
+      --text: #eef3ff;
+      --muted: #9aa8c7;
+      --border: #263451;
+      --accent: #7c9cff;
+      --green: #55d6a0;
+      --danger: #ff8f8f;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, #18284d 0%, transparent 35%),
+        linear-gradient(135deg, #090e1b, #101a31);
+      color: var(--text);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    .container {
+      width: min(1050px, 94%);
+      margin: auto;
+      padding: 30px 0 70px;
+    }
+
+    .hero { margin-bottom: 25px; }
+
+    .eyebrow {
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      font-size: clamp(30px, 6vw, 50px);
+      margin: 8px 0;
+      line-height: 1.1;
+    }
+
+    .hero p {
+      color: var(--muted);
+      max-width: 750px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .progress-card {
+      position: sticky;
+      top: 10px;
+      z-index: 10;
+      background: rgba(18, 26, 45, 0.92);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 24px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    }
+
+    .progress-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .progress-percent {
+      font-size: 21px;
+      font-weight: 800;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: #222d47;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--green));
+      transition: width 0.3s ease;
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    .button {
+      border: 1px solid var(--border);
+      background: #1a2640;
+      color: var(--text);
+      padding: 9px 13px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .button:hover { background: #243353; }
+    .button.reset { color: var(--danger); border-color: #593131; }
+
+    .week {
+      background: rgba(18, 26, 45, 0.9);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .week-header {
+      padding: 17px 18px;
+      background: rgba(23, 34, 58, 0.75);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .week-title { font-size: 18px; font-weight: 800; }
+    .week-date { color: var(--muted); font-size: 13px; margin-top: 4px; }
+
+    .subjects { display: grid; grid-template-columns: 1fr 1fr; }
+
+    .subject { padding: 17px 18px; }
+
+    .subject + .subject {
+      border-left: 1px solid var(--border);
+    }
+
+    .subject-title {
+      margin: 0 0 10px;
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .topic {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 10px 0;
+      border-top: 1px solid rgba(38, 52, 81, 0.55);
+    }
+
+    .topic:first-of-type { border-top: none; }
+
+    .topic-name {
+      line-height: 1.4;
+      transition: 0.2s;
+    }
+
+    .check-button {
+      width: 24px;
+      height: 24px;
+      flex-shrink: 0;
+      border-radius: 7px;
+      border: 2px solid #536585;
+      background: transparent;
+      color: #07130e;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 15px;
+      font-weight: 900;
+      transition: 0.2s;
+      padding: 0;
+    }
+
+    .check-button:hover {
+      border-color: var(--green);
+      transform: scale(1.05);
+    }
+
+    .check-button.completed {
+      background: var(--green);
+      border-color: var(--green);
+    }
+
+    .topic.completed .topic-name {
+      color: #71809d;
+      text-decoration: line-through;
+    }
+
+    .install-note {
+      display: none;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    @media (max-width: 700px) {
+      .container {
+        width: 92%;
+        padding-top: 20px;
+      }
+
+      .subjects { grid-template-columns: 1fr; }
+
+      .subject + .subject {
+        border-left: none;
+        border-top: 1px solid var(--border);
+      }
+
+      .progress-card {
+        position: relative;
+        top: 0;
+      }
+
+      .week-title { font-size: 16px; }
+
+      .progress-info {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .button {
+        flex: 1 1 auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <section class="hero">
+      <div class="eyebrow">JEE Main • 14 Week Tracker</div>
+      <h1>Physics + Chemistry</h1>
+      <p>One-shot → Resonance Exercise 1 (Part I + II) → 2–3 Years PYQs → Revision</p>
+    </section>
+
+    <section class="progress-card">
+      <div class="progress-top">
+        <strong>Overall Progress</strong>
+        <span class="progress-percent" id="progressPercent">0%</span>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+
+      <div class="progress-info">
+        <span id="progressCount">0 / 40 topics completed</span>
+        <span id="saveStatus">Auto-saved</span>
+      </div>
+
+      <div class="buttons">
+        <button class="button" onclick="markAllComplete()">✓ Mark All Complete</button>
+        <button class="button" onclick="backupProgress()">💾 Backup Progress</button>
+        <button class="button" onclick="restoreProgress()">📂 Restore Progress</button>
+        <button class="button reset" onclick="resetProgress()">Reset Progress</button>
+      </div>
+
+      <div class="install-note" id="installNote">
+        If your browser offers “Install app” or “Add to Home screen”, use it to put this tracker on your phone like an app.
+      </div>
+    </section>
+
+    <main id="tracker"></main>
+  </div>
+
+  <script>
+    const weeks = [
+      {
+        week: "WEEK 1", dates: "Sept 20 – Sept 26", title: "BASE BUILDING",
+        physics: ["Electrostatics", "Units & Measurements (Errors)"],
+        chemistry: ["Some Basic Concepts in Chemistry (Mole Concept)", "Classification of Elements & Periodicity"]
+      },
+      {
+        week: "WEEK 2", dates: "Sept 27 – Oct 3", title: "CORE MECHANICS & STRUCTURE",
+        physics: ["Current Electricity"],
+        chemistry: ["Atomic Structure", "Chemical Bonding & Molecular Structure"]
+      },
+      {
+        week: "WEEK 3", dates: "Oct 4 – Oct 10", title: "MAGNETISM & THERMO",
+        physics: ["Magnetic Effects of Current & Magnetism"],
+        chemistry: ["Chemical Thermodynamics"]
+      },
+      {
+        week: "WEEK 4", dates: "Oct 11 – Oct 17", title: "INDUCTION & EQUILIBRIUM",
+        physics: ["Electromagnetic Induction & Alternating Current"],
+        chemistry: ["Equilibrium (Ionic + Chemical)"]
+      },
+      {
+        week: "WEEK 5", dates: "Oct 18 – Oct 24", title: "OPTICS & INORGANIC I",
+        physics: ["Optics (Ray + Wave)"],
+        chemistry: ["Coordination Compounds", "d- and f-Block Elements"]
+      },
+      {
+        week: "WEEK 6", dates: "Oct 25 – Oct 31", title: "HEAVY MECHANICS & INORGANIC II",
+        physics: ["Rotational Motion"],
+        chemistry: ["p-Block Elements"]
+      },
+      {
+        week: "WEEK 7", dates: "Nov 1 – Nov 7", title: "HEAT & ORGANIC BASE",
+        physics: ["Thermodynamics", "Kinetic Theory of Gases"],
+        chemistry: ["Some Basic Principles of Organic Chemistry"]
+      },
+      {
+        week: "WEEK 8", dates: "Nov 8 – Nov 14", title: "KINEMATICS & ORGANIC II",
+        physics: ["Kinematics", "Laws of Motion"],
+        chemistry: ["Hydrocarbons", "Organic Compounds Containing Halogens"]
+      },
+      {
+        week: "WEEK 9", dates: "Nov 15 – Nov 21", title: "MODERN PHYSICS I & ORGANIC III",
+        physics: ["Work, Energy & Power", "Dual Nature of Matter & Radiation"],
+        chemistry: ["Organic Compounds Containing Oxygen"]
+      },
+      {
+        week: "WEEK 10", dates: "Nov 22 – Nov 28", title: "MODERN PHYSICS II & ORGANIC IV",
+        physics: ["Atoms & Nuclei", "Electronic Devices (Semiconductors)"],
+        chemistry: ["Organic Compounds Containing Nitrogen", "Purification & Characterisation of Organic Compounds"]
+      },
+      {
+        week: "WEEK 11", dates: "Nov 29 – Dec 5", title: "MATTER & PHYSICAL CHEM I",
+        physics: ["Properties of Solids & Liquids"],
+        chemistry: ["Solutions", "Chemical Kinetics"]
+      },
+      {
+        week: "WEEK 12", dates: "Dec 6 – Dec 12", title: "WAVES & PHYSICAL CHEM II",
+        physics: ["Oscillations & Waves"],
+        chemistry: ["Redox Reactions & Electrochemistry", "Biomolecules"]
+      },
+      {
+        week: "WEEK 13", dates: "Dec 13 – Dec 19", title: "GRAVITY & PRACTICAL",
+        physics: ["Gravitation", "Electromagnetic Waves"],
+        chemistry: ["Principles Related to Practical Chemistry"]
+      },
+      {
+        week: "WEEK 14", dates: "Dec 20 – Dec 28", title: "FINAL SWEEP • 9 DAYS",
+        physics: ["Experimental Skills"],
+        chemistry: ["Final Backlog Sweep & Buffer"]
+      }
+    ];
+
+    const STORAGE_KEY = "jee-main-pc-tracker-v2";
+
+    const allTopics = [];
+    weeks.forEach(week => {
+      week.physics.forEach(topic => allTopics.push(topic));
+      week.chemistry.forEach(topic => allTopics.push(topic));
+    });
+
+    const totalTopics = allTopics.length;
+
+    function loadProgress() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return {};
+        const parsed = JSON.parse(saved);
+        return parsed && typeof parsed === "object" ? parsed : {};
+      } catch {
+        return {};
+      }
+    }
+
+    function saveProgress(progress) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      updateSaveStatus("Saved just now");
+      setTimeout(() => updateSaveStatus("Auto-saved"), 1200);
+    }
+
+    function updateSaveStatus(text) {
+      document.getElementById("saveStatus").textContent = text;
+    }
+
+    function topicKey(topic) {
+      return topic;
+    }
+
+    function renderTracker() {
+      const progress = loadProgress();
+      const tracker = document.getElementById("tracker");
+      let html = "";
+
+      weeks.forEach(week => {
+        html += `
+          <section class="week">
+            <div class="week-header">
+              <div class="week-title">${escapeHtml(week.week)} · ${escapeHtml(week.title)}</div>
+              <div class="week-date">${escapeHtml(week.dates)}</div>
+            </div>
+            <div class="subjects">
+              <div class="subject">
+                <h3 class="subject-title">Physics</h3>
+                ${renderTopics(week.physics, progress)}
+              </div>
+              <div class="subject">
+                <h3 class="subject-title">Chemistry</h3>
+                ${renderTopics(week.chemistry, progress)}
+              </div>
+            </div>
+          </section>
+        `;
+      });
+
+      tracker.innerHTML = html;
+      updateProgress();
+    }
+
+    function renderTopics(topics, progress) {
+      return topics.map(topic => {
+        const completed = progress[topicKey(topic)] === true;
+
+        return `
+          <div class="topic ${completed ? "completed" : ""}" data-topic="${escapeHtml(topic)}">
+            <button
+              class="check-button ${completed ? "completed" : ""}"
+              onclick='toggleTopic(${JSON.stringify(topic)})'
+              aria-label="Mark ${escapeHtml(topic)} complete"
+            >${completed ? "✓" : ""}</button>
+            <span class="topic-name">${escapeHtml(topic)}</span>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function toggleTopic(topic) {
+      const progress = loadProgress();
+      progress[topicKey(topic)] = progress[topicKey(topic)] !== true;
+      saveProgress(progress);
+      renderTracker();
+    }
+
+    function updateProgress() {
+      const progress = loadProgress();
+      let completed = 0;
+
+      allTopics.forEach(topic => {
+        if (progress[topicKey(topic)] === true) completed++;
+      });
+
+      const percentage = Math.round((completed / totalTopics) * 100);
+
+      document.getElementById("progressPercent").textContent = percentage + "%";
+      document.getElementById("progressFill").style.width = percentage + "%";
+      document.getElementById("progressCount").textContent =
+        `${completed} / ${totalTopics} topics completed`;
+    }
+
+    function markAllComplete() {
+      const progress = loadProgress();
+
+      allTopics.forEach(topic => {
+        progress[topicKey(topic)] = true;
+      });
+
+      saveProgress(progress);
+      renderTracker();
+    }
+
+    function resetProgress() {
+      const confirmed = confirm("Are you sure you want to reset all progress?");
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      updateSaveStatus("Progress reset");
+      renderTracker();
+    }
+
+    function backupProgress() {
+      const progress = loadProgress();
+
+      const backup = {
+        app: "JEE Main Physics + Chemistry Tracker",
+        version: 2,
+        exportedAt: new Date().toISOString(),
+        completedTopics: allTopics.filter(topic => progress[topicKey(topic)] === true)
+      };
+
+      const blob = new Blob(
+        [JSON.stringify(backup, null, 2)],
+        { type: "application/json" }
+      );
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "jee-tracker-backup.json";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+
+      updateSaveStatus("Backup created");
+    }
+
+    function restoreProgress() {
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = ".json,application/json";
+
+      input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
+
+        try {
+          const text = await file.text();
+          const backup = JSON.parse(text);
+
+          if (!Array.isArray(backup.completedTopics)) {
+            throw new Error("Invalid backup");
+          }
+
+          const progress = {};
+
+          backup.completedTopics.forEach(topic => {
+            if (allTopics.includes(topic)) {
+              progress[topic] = true;
+            }
+          });
+
+          saveProgress(progress);
+          renderTracker();
+          updateSaveStatus("Progress restored");
+        } catch {
+          alert("That backup file is not valid for this tracker.");
+        }
+      };
+
+      input.click();
+    }
+
+    function escapeHtml(value) {
+      return String(value)
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
+    }
+
+    // Register the offline service worker when served from HTTPS or localhost.
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => updateSaveStatus("Offline-ready"))
+          .catch(() => updateSaveStatus("Auto-saved"));
+      });
+    }
+
+    // Show installation guidance where appropriate.
+    if (location.protocol === "https:") {
+      document.getElementById("installNote").style.display = "block";
+    }
+
+    renderTracker();
+  </script>
+</body>
+</html>
