@@ -4,9 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="theme-color" content="#0b1020" />
-  <meta name="description" content="Personal JEE Main Physics + Chemistry progress tracker" />
+  <meta name="description" content="Personal JEE Main Physics + Chemistry + Mathematics progress tracker" />
   <link rel="manifest" href="manifest.json" />
-  <title>JEE Main Physics + Chemistry Tracker</title>
+  <title>JEE Main PCM Tracker</title>
 
   <style>
     :root {
@@ -150,10 +150,11 @@
     .week-title { font-size: 18px; font-weight: 800; }
     .week-date { color: var(--muted); font-size: 13px; margin-top: 4px; }
 
-    .subjects {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-    }
+    .subjects { display: grid; grid-template-columns: 1fr 1fr; }
+
+    .maths-deep, .maths-coverage { border-top: 1px solid var(--border); }
+
+    .maths-coverage { background: rgba(23, 34, 58, 0.18); }
 
     .subject { padding: 17px 18px; }
 
@@ -233,23 +234,21 @@
         padding-top: 20px;
       }
 
-      .subjects {
-        grid-template-columns: 1fr;
-      }
+      .subjects { grid-template-columns: 1fr; }
 
       .subject + .subject {
         border-left: none;
         border-top: 1px solid var(--border);
       }
 
+      .maths-deep, .maths-coverage { border-top: 1px solid var(--border); }
+
       .progress-card {
         position: relative;
         top: 0;
       }
 
-      .week-title {
-        font-size: 16px;
-      }
+      .week-title { font-size: 16px; }
 
       .progress-info {
         flex-direction: column;
@@ -264,950 +263,367 @@
 </head>
 
 <body>
-
   <div class="container">
-
     <section class="hero">
-
-      <div class="eyebrow">
-        JEE Main • 14 Week Tracker
-      </div>
-
-      <h1>
-        Physics + Chemistry
-      </h1>
-
-      <p>
-        One-shot → Resonance Exercise 1 (Part I + II)
-        → 2–3 Years PYQs → Revision
-      </p>
-
+      <div class="eyebrow">JEE Main • 14 Week Tracker</div>
+      <h1>Physics + Chemistry + Mathematics</h1>
+      <p>Physics + Chemistry: full Main-level coverage. Maths: full syllabus, with deeper practice on high-priority chapters and Main-level theory on the rest.</p>
     </section>
-
 
     <section class="progress-card">
-
       <div class="progress-top">
-
-        <strong>
-          Overall Progress
-        </strong>
-
-        <span
-          class="progress-percent"
-          id="progressPercent"
-        >
-          0%
-        </span>
-
+        <strong>Overall Progress</strong>
+        <span class="progress-percent" id="progressPercent">0%</span>
       </div>
-
 
       <div class="progress-bar">
-
-        <div
-          class="progress-fill"
-          id="progressFill"
-        ></div>
-
+        <div class="progress-fill" id="progressFill"></div>
       </div>
-
 
       <div class="progress-info">
-
-        <span id="progressCount">
-          0 / 40 topics completed
-        </span>
-
-        <span id="saveStatus">
-          Auto-saved
-        </span>
-
+        <span id="progressCount">0 / 73 topics completed</span>
+        <span id="saveStatus">Auto-saved</span>
       </div>
-
 
       <div class="buttons">
-
-        <button
-          class="button"
-          onclick="markAllComplete()"
-        >
-          ✓ Mark All Complete
-        </button>
-
-        <button
-          class="button"
-          onclick="backupProgress()"
-        >
-          💾 Backup Progress
-        </button>
-
-        <button
-          class="button"
-          onclick="restoreProgress()"
-        >
-          📂 Restore Progress
-        </button>
-
-        <button
-          class="button reset"
-          onclick="resetProgress()"
-        >
-          Reset Progress
-        </button>
-
+        <button class="button" onclick="markAllComplete()">✓ Mark All Complete</button>
+        <button class="button" onclick="backupProgress()">💾 Backup Progress</button>
+        <button class="button" onclick="restoreProgress()">📂 Restore Progress</button>
+        <button class="button reset" onclick="resetProgress()">Reset Progress</button>
       </div>
 
-
-      <div
-        class="install-note"
-        id="installNote"
-      >
-        If your browser offers “Install app” or “Add to Home screen”,
-        use it to put this tracker on your phone like an app.
+      <div class="install-note" id="installNote">
+        If your browser offers “Install app” or “Add to Home screen”, use it to put this tracker on your phone like an app.
       </div>
-
     </section>
 
-
     <main id="tracker"></main>
-
   </div>
 
-
   <script>
-
     const weeks = [
-
       {
-        week: "WEEK 1",
-        dates: "Sept 24 – Sept 30",
-        title: "BASE BUILDING",
-
-        physics: [
-          "Electrostatics",
-          "Units & Measurements (Errors)"
-        ],
-
-        chemistry: [
-          "Some Basic Concepts in Chemistry (Mole Concept)",
-          "Classification of Elements & Periodicity"
-        ]
+        week: "WEEK 1", dates: "Sept 24 – Sept 30", title: "BASE BUILDING",
+        physics: ["Electrostatics", "Units & Measurements (Errors)"],
+        chemistry: ["Some Basic Concepts in Chemistry (Mole Concept)", "Classification of Elements & Periodicity"],
+        mathsDeep: ["Sets, Relations & Functions"],
+        mathsCoverage: ["Trigonometry (Identities & Functions) "]
       },
-
-
       {
-        week: "WEEK 2",
-        dates: "Oct 1 – Oct 7",
-        title: "CORE MECHANICS & STRUCTURE",
-
-        physics: [
-          "Current Electricity"
-        ],
-
-        chemistry: [
-          "Atomic Structure",
-          "Chemical Bonding & Molecular Structure"
-        ]
+        week: "WEEK 2", dates: "Oct 1 – Oct 7", title: "CORE MECHANICS & STRUCTURE",
+        physics: ["Current Electricity"],
+        chemistry: ["Atomic Structure", "Chemical Bonding & Molecular Structure"],
+        mathsDeep: ["Quadratic Equations", "Complex Numbers"],
+        mathsCoverage: ["Permutations & Combinations"]
       },
-
-
       {
-        week: "WEEK 3",
-        dates: "Oct 8 – Oct 14",
-        title: "MAGNETISM & THERMO",
-
-        physics: [
-          "Magnetic Effects of Current & Magnetism"
-        ],
-
-        chemistry: [
-          "Chemical Thermodynamics"
-        ]
+        week: "WEEK 3", dates: "Oct 8 – Oct 14", title: "MAGNETISM & THERMO",
+        physics: ["Magnetic Effects of Current & Magnetism"],
+        chemistry: ["Chemical Thermodynamics"],
+        mathsDeep: ["Matrices & Determinants", "Sequence & Series"],
+        mathsCoverage: ["Binomial Theorem"]
       },
-
-
       {
-        week: "WEEK 4",
-        dates: "Oct 15 – Oct 21",
-        title: "INDUCTION & EQUILIBRIUM",
-
-        physics: [
-          "Electromagnetic Induction & Alternating Current"
-        ],
-
-        chemistry: [
-          "Equilibrium (Ionic + Chemical)"
-        ]
+        week: "WEEK 4", dates: "Oct 15 – Oct 21", title: "INDUCTION & EQUILIBRIUM",
+        physics: ["Electromagnetic Induction & Alternating Current"],
+        chemistry: ["Equilibrium (Ionic + Chemical)"],
+        mathsDeep: ["Limits, Continuity & Differentiability"],
+        mathsCoverage: ["Statistics"]
       },
-
-
       {
-        week: "WEEK 5",
-        dates: "Oct 22 – Oct 28",
-        title: "OPTICS & INORGANIC I",
-
-        physics: [
-          "Optics (Ray + Wave)"
-        ],
-
-        chemistry: [
-          "Coordination Compounds",
-          "d- and f-Block Elements"
-        ]
+        week: "WEEK 5", dates: "Oct 22 – Oct 28", title: "OPTICS & INORGANIC I",
+        physics: ["Optics (Ray + Wave)"],
+        chemistry: ["Coordination Compounds", "d- and f-Block Elements"],
+        mathsDeep: ["Applications of Derivatives"],
+        mathsCoverage: ["Inverse Trigonometry + Trigonometric Equations"]
       },
-
-
       {
-        week: "WEEK 6",
-        dates: "Oct 29 – Nov 4",
-        title: "HEAVY MECHANICS & INORGANIC II",
-
-        physics: [
-          "Rotational Motion"
-        ],
-
-        chemistry: [
-          "p-Block Elements"
-        ]
+        week: "WEEK 6", dates: "Oct 29 – Nov 4", title: "HEAVY MECHANICS & INORGANIC II",
+        physics: ["Rotational Motion"],
+        chemistry: ["p-Block Elements"],
+        mathsDeep: ["Indefinite Integration"],
+        mathsCoverage: ["Differential Equations"]
       },
-
-
       {
-        week: "WEEK 7",
-        dates: "Nov 5 – Nov 11",
-        title: "HEAT & ORGANIC BASE",
-
-        physics: [
-          "Thermodynamics",
-          "Kinetic Theory of Gases"
-        ],
-
-        chemistry: [
-          "Some Basic Principles of Organic Chemistry"
-        ]
+        week: "WEEK 7", dates: "Nov 5 – Nov 11", title: "HEAT & ORGANIC BASE",
+        physics: ["Thermodynamics", "Kinetic Theory of Gases"],
+        chemistry: ["Some Basic Principles of Organic Chemistry"],
+        mathsDeep: ["Definite Integration & Area Under Curves"],
+        mathsCoverage: ["Revision: Binomial + Sequence & Series"]
       },
-
-
       {
-        week: "WEEK 8",
-        dates: "Nov 12 – Nov 18",
-        title: "KINEMATICS & ORGANIC II",
-
-        physics: [
-          "Kinematics",
-          "Laws of Motion"
-        ],
-
-        chemistry: [
-          "Hydrocarbons",
-          "Organic Compounds Containing Halogens"
-        ]
+        week: "WEEK 8", dates: "Nov 12 – Nov 18", title: "KINEMATICS & ORGANIC II",
+        physics: ["Kinematics", "Laws of Motion"],
+        chemistry: ["Hydrocarbons", "Organic Compounds Containing Halogens"],
+        mathsDeep: ["Straight Lines", "Circle"],
+        mathsCoverage: ["Coordinate Geometry Basics & Locus"]
       },
-
-
       {
-        week: "WEEK 9",
-        dates: "Nov 19 – Nov 25",
-        title: "MODERN PHYSICS I & ORGANIC III",
-
-        physics: [
-          "Work, Energy & Power",
-          "Dual Nature of Matter & Radiation"
-        ],
-
-        chemistry: [
-          "Organic Compounds Containing Oxygen"
-        ]
+        week: "WEEK 9", dates: "Nov 19 – Nov 25", title: "MODERN PHYSICS I & ORGANIC III",
+        physics: ["Work, Energy & Power", "Dual Nature of Matter & Radiation"],
+        chemistry: ["Organic Compounds Containing Oxygen"],
+        mathsDeep: ["Parabola", "Ellipse & Hyperbola"],
+        mathsCoverage: ["Conic Sections: Main-level Formula Revision"]
       },
-
-
       {
-        week: "WEEK 10",
-        dates: "Nov 26 – Dec 2",
-        title: "MODERN PHYSICS II & ORGANIC IV",
-
-        physics: [
-          "Atoms & Nuclei",
-          "Electronic Devices (Semiconductors)"
-        ],
-
-        chemistry: [
-          "Organic Compounds Containing Nitrogen",
-          "Purification & Characterisation of Organic Compounds"
-        ]
+        week: "WEEK 10", dates: "Nov 26 – Dec 2", title: "MODERN PHYSICS II & ORGANIC IV",
+        physics: ["Atoms & Nuclei", "Electronic Devices (Semiconductors)"],
+        chemistry: ["Organic Compounds Containing Nitrogen", "Purification & Characterisation of Organic Compounds"],
+        mathsDeep: ["Vector Algebra", "Three Dimensional Geometry"],
+        mathsCoverage: ["Statistics: Main-level PYQs"]
       },
-
-
       {
-        week: "WEEK 11",
-        dates: "Dec 3 – Dec 9",
-        title: "MATTER & PHYSICAL CHEM I",
-
-        physics: [
-          "Properties of Solids & Liquids"
-        ],
-
-        chemistry: [
-          "Solutions",
-          "Chemical Kinetics"
-        ]
+        week: "WEEK 11", dates: "Dec 3 – Dec 9", title: "MATTER & PHYSICAL CHEM I",
+        physics: ["Properties of Solids & Liquids"],
+        chemistry: ["Solutions", "Chemical Kinetics"],
+        mathsDeep: ["Probability"],
+        mathsCoverage: ["Mathematical Revision: Functions + Quadratic + Complex"]
       },
-
-
       {
-        week: "WEEK 12",
-        dates: "Dec 10 – Dec 16",
-        title: "WAVES & PHYSICAL CHEM II",
-
-        physics: [
-          "Oscillations & Waves"
-        ],
-
-        chemistry: [
-          "Redox Reactions & Electrochemistry",
-          "Biomolecules"
-        ]
+        week: "WEEK 12", dates: "Dec 10 – Dec 16", title: "WAVES & PHYSICAL CHEM II",
+        physics: ["Oscillations & Waves"],
+        chemistry: ["Redox Reactions & Electrochemistry", "Biomolecules"],
+        mathsDeep: ["Full Calculus Revision + Mixed Main PYQs"],
+        mathsCoverage: ["Full Algebra Revision + Mixed Main PYQs"]
       },
-
-
       {
-        week: "WEEK 13",
-        dates: "Dec 17 – Dec 23",
-        title: "GRAVITY & PRACTICAL",
-
-        physics: [
-          "Gravitation",
-          "Electromagnetic Waves"
-        ],
-
-        chemistry: [
-          "Principles Related to Practical Chemistry"
-        ]
+        week: "WEEK 13", dates: "Dec 17 – Dec 23", title: "GRAVITY & PRACTICAL",
+        physics: ["Gravitation", "Electromagnetic Waves"],
+        chemistry: ["Principles Related to Practical Chemistry"],
+        mathsDeep: ["Full Coordinate + Vector/3D Revision + Mixed Main PYQs"],
+        mathsCoverage: ["Trigonometry + Statistics + Differential Equations Revision"]
       },
-
-
       {
-        week: "WEEK 14",
-        dates: "Dec 24 – Jan 1",
-        title: "FINAL SWEEP • 9 DAYS",
-
-        physics: [
-          "Experimental Skills"
-        ],
-
-        chemistry: [
-          "Final Backlog Sweep & Buffer"
-        ]
+        week: "WEEK 14", dates: "Dec 24 – Jan 1", title: "FINAL SWEEP • 9 DAYS",
+        physics: ["Experimental Skills"],
+        chemistry: ["Final Backlog Sweep & Buffer"],
+        mathsDeep: ["High-Priority Maths Final Sweep + 2–3 Years PYQs"],
+        mathsCoverage: ["Remaining Maths Syllabus Sweep + Formula Revision"]
       }
-
     ];
 
-
-    const STORAGE_KEY =
-      "jee-main-pc-tracker-v2";
-
+    const STORAGE_KEY = "jee-main-pc-tracker-v2";
 
     const allTopics = [];
-
-
     weeks.forEach(week => {
-
-      week.physics.forEach(topic =>
-        allTopics.push(topic)
-      );
-
-      week.chemistry.forEach(topic =>
-        allTopics.push(topic)
-      );
-
+      week.physics.forEach(topic => allTopics.push(topic));
+      week.chemistry.forEach(topic => allTopics.push(topic));
+      week.mathsDeep.forEach(topic => allTopics.push(topic));
+      week.mathsCoverage.forEach(topic => allTopics.push(topic));
     });
 
-
-    const totalTopics =
-      allTopics.length;
-
+    const totalTopics = allTopics.length;
 
     function loadProgress() {
-
       try {
-
-        const saved =
-          localStorage.getItem(STORAGE_KEY);
-
-        if (!saved) {
-          return {};
-        }
-
-        const parsed =
-          JSON.parse(saved);
-
-        return parsed &&
-          typeof parsed === "object"
-          ? parsed
-          : {};
-
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return {};
+        const parsed = JSON.parse(saved);
+        return parsed && typeof parsed === "object" ? parsed : {};
       } catch {
-
         return {};
-
       }
-
     }
-
 
     function saveProgress(progress) {
-
-      localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(progress)
-      );
-
-      updateSaveStatus(
-        "Saved just now"
-      );
-
-      setTimeout(() => {
-
-        updateSaveStatus(
-          "Auto-saved"
-        );
-
-      }, 1200);
-
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+      updateSaveStatus("Saved just now");
+      setTimeout(() => updateSaveStatus("Auto-saved"), 1200);
     }
-
 
     function updateSaveStatus(text) {
-
-      document.getElementById(
-        "saveStatus"
-      ).textContent = text;
-
+      document.getElementById("saveStatus").textContent = text;
     }
-
 
     function topicKey(topic) {
-
       return topic;
-
     }
-
 
     function renderTracker() {
-
-      const progress =
-        loadProgress();
-
-      const tracker =
-        document.getElementById(
-          "tracker"
-        );
-
+      const progress = loadProgress();
+      const tracker = document.getElementById("tracker");
       let html = "";
 
-
       weeks.forEach(week => {
-
         html += `
-
           <section class="week">
-
             <div class="week-header">
-
-              <div class="week-title">
-
-                ${escapeHtml(week.week)}
-                ·
-                ${escapeHtml(week.title)}
-
-              </div>
-
-              <div class="week-date">
-
-                ${escapeHtml(week.dates)}
-
-              </div>
-
+              <div class="week-title">${escapeHtml(week.week)} · ${escapeHtml(week.title)}</div>
+              <div class="week-date">${escapeHtml(week.dates)}</div>
             </div>
-
-
             <div class="subjects">
-
               <div class="subject">
-
-                <h3 class="subject-title">
-                  Physics
-                </h3>
-
-                ${renderTopics(
-                  week.physics,
-                  progress
-                )}
-
+                <h3 class="subject-title">Physics</h3>
+                ${renderTopics(week.physics, progress)}
               </div>
-
-
               <div class="subject">
-
-                <h3 class="subject-title">
-                  Chemistry
-                </h3>
-
-                ${renderTopics(
-                  week.chemistry,
-                  progress
-                )}
-
+                <h3 class="subject-title">Chemistry</h3>
+                ${renderTopics(week.chemistry, progress)}
               </div>
-
+              <div class="subject maths-deep">
+                <h3 class="subject-title">Maths · Deep Practice</h3>
+                ${renderTopics(week.mathsDeep, progress)}
+              </div>
+              <div class="subject maths-coverage">
+                <h3 class="subject-title">Maths · Main Theory / Coverage</h3>
+                ${renderTopics(week.mathsCoverage, progress)}
+              </div>
             </div>
-
           </section>
-
         `;
-
       });
-
 
       tracker.innerHTML = html;
-
       updateProgress();
-
     }
 
-
-    function renderTopics(
-      topics,
-      progress
-    ) {
-
+    function renderTopics(topics, progress) {
       return topics.map(topic => {
-
-        const completed =
-          progress[
-            topicKey(topic)
-          ] === true;
-
+        const completed = progress[topicKey(topic)] === true;
 
         return `
-
-          <div
-            class="topic
-            ${completed ? "completed" : ""}"
-            data-topic="${escapeHtml(topic)}"
-          >
-
+          <div class="topic ${completed ? "completed" : ""}" data-topic="${escapeHtml(topic)}">
             <button
-
-              class="check-button
-              ${completed ? "completed" : ""}"
-
+              class="check-button ${completed ? "completed" : ""}"
               onclick='toggleTopic(${JSON.stringify(topic)})'
-
               aria-label="Mark ${escapeHtml(topic)} complete"
-
-            >
-
-              ${completed ? "✓" : ""}
-
-            </button>
-
-
-            <span class="topic-name">
-
-              ${escapeHtml(topic)}
-
-            </span>
-
+            >${completed ? "✓" : ""}</button>
+            <span class="topic-name">${escapeHtml(topic)}</span>
           </div>
-
         `;
-
       }).join("");
-
     }
-
 
     function toggleTopic(topic) {
-
-      const progress =
-        loadProgress();
-
-
-      progress[
-        topicKey(topic)
-      ] =
-        progress[
-          topicKey(topic)
-        ] !== true;
-
-
+      const progress = loadProgress();
+      progress[topicKey(topic)] = progress[topicKey(topic)] !== true;
       saveProgress(progress);
-
       renderTracker();
-
     }
-
 
     function updateProgress() {
-
-      const progress =
-        loadProgress();
-
+      const progress = loadProgress();
       let completed = 0;
 
-
       allTopics.forEach(topic => {
-
-        if (
-          progress[
-            topicKey(topic)
-          ] === true
-        ) {
-
-          completed++;
-
-        }
-
+        if (progress[topicKey(topic)] === true) completed++;
       });
 
+      const percentage = Math.round((completed / totalTopics) * 100);
 
-      const percentage =
-        Math.round(
-          (completed / totalTopics) * 100
-        );
-
-
-      document.getElementById(
-        "progressPercent"
-      ).textContent =
-        percentage + "%";
-
-
-      document.getElementById(
-        "progressFill"
-      ).style.width =
-        percentage + "%";
-
-
-      document.getElementById(
-        "progressCount"
-      ).textContent =
+      document.getElementById("progressPercent").textContent = percentage + "%";
+      document.getElementById("progressFill").style.width = percentage + "%";
+      document.getElementById("progressCount").textContent =
         `${completed} / ${totalTopics} topics completed`;
-
     }
-
 
     function markAllComplete() {
-
-      const progress =
-        loadProgress();
-
+      const progress = loadProgress();
 
       allTopics.forEach(topic => {
-
-        progress[
-          topicKey(topic)
-        ] = true;
-
+        progress[topicKey(topic)] = true;
       });
 
-
       saveProgress(progress);
-
       renderTracker();
-
     }
-
 
     function resetProgress() {
+      const confirmed = confirm("Are you sure you want to reset all progress?");
+      if (!confirmed) return;
 
-      const confirmed =
-        confirm(
-          "Are you sure you want to reset all progress?"
-        );
-
-
-      if (!confirmed) {
-        return;
-      }
-
-
-      localStorage.removeItem(
-        STORAGE_KEY
-      );
-
-
-      updateSaveStatus(
-        "Progress reset"
-      );
-
-
+      localStorage.removeItem(STORAGE_KEY);
+      updateSaveStatus("Progress reset");
       renderTracker();
-
     }
-
 
     function backupProgress() {
-
-      const progress =
-        loadProgress();
-
+      const progress = loadProgress();
 
       const backup = {
-
-        app:
-          "JEE Main Physics + Chemistry Tracker",
-
+        app: "JEE Main Physics + Chemistry + Mathematics Tracker",
         version: 2,
-
-        exportedAt:
-          new Date().toISOString(),
-
-        completedTopics:
-          allTopics.filter(
-            topic =>
-              progress[
-                topicKey(topic)
-              ] === true
-          )
-
+        exportedAt: new Date().toISOString(),
+        completedTopics: allTopics.filter(topic => progress[topicKey(topic)] === true)
       };
 
+      const blob = new Blob(
+        [JSON.stringify(backup, null, 2)],
+        { type: "application/json" }
+      );
 
-      const blob =
-        new Blob(
-
-          [
-            JSON.stringify(
-              backup,
-              null,
-              2
-            )
-          ],
-
-          {
-            type:
-              "application/json"
-          }
-
-        );
-
-
-      const url =
-        URL.createObjectURL(
-          blob
-        );
-
-
-      const a =
-        document.createElement(
-          "a"
-        );
-
-
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
       a.href = url;
-
-      a.download =
-        "jee-tracker-backup.json";
-
-
+      a.download = "jee-tracker-backup.json";
       document.body.appendChild(a);
-
       a.click();
-
       a.remove();
-
-
       URL.revokeObjectURL(url);
 
-
-      updateSaveStatus(
-        "Backup created"
-      );
-
+      updateSaveStatus("Backup created");
     }
-
 
     function restoreProgress() {
-
-      const input =
-        document.createElement(
-          "input"
-        );
-
-
+      const input = document.createElement("input");
       input.type = "file";
+      input.accept = ".json,application/json";
 
-      input.accept =
-        ".json,application/json";
+      input.onchange = async () => {
+        const file = input.files[0];
+        if (!file) return;
 
+        try {
+          const text = await file.text();
+          const backup = JSON.parse(text);
 
-      input.onchange =
-        async () => {
-
-          const file =
-            input.files[0];
-
-
-          if (!file) {
-            return;
+          if (!Array.isArray(backup.completedTopics)) {
+            throw new Error("Invalid backup");
           }
 
+          const progress = {};
 
-          try {
-
-            const text =
-              await file.text();
-
-
-            const backup =
-              JSON.parse(text);
-
-
-            if (
-              !Array.isArray(
-                backup.completedTopics
-              )
-            ) {
-
-              throw new Error(
-                "Invalid backup"
-              );
-
+          backup.completedTopics.forEach(topic => {
+            if (allTopics.includes(topic)) {
+              progress[topic] = true;
             }
+          });
 
-
-            const progress = {};
-
-
-            backup.completedTopics
-              .forEach(topic => {
-
-                if (
-                  allTopics.includes(
-                    topic
-                  )
-                ) {
-
-                  progress[topic] =
-                    true;
-
-                }
-
-              });
-
-
-            saveProgress(
-              progress
-            );
-
-
-            renderTracker();
-
-
-            updateSaveStatus(
-              "Progress restored"
-            );
-
-
-          } catch {
-
-            alert(
-              "That backup file is not valid for this tracker."
-            );
-
-          }
-
-        };
-
+          saveProgress(progress);
+          renderTracker();
+          updateSaveStatus("Progress restored");
+        } catch {
+          alert("That backup file is not valid for this tracker.");
+        }
+      };
 
       input.click();
-
     }
-
 
     function escapeHtml(value) {
-
       return String(value)
-
-        .replaceAll(
-          "&",
-          "&amp;"
-        )
-
-        .replaceAll(
-          "<",
-          "&lt;"
-        )
-
-        .replaceAll(
-          ">",
-          "&gt;"
-        )
-
-        .replaceAll(
-          '"',
-          "&quot;"
-        )
-
-        .replaceAll(
-          "'",
-          "&#039;"
-        );
-
+        .replaceAll("&", "&amp;")
+        .replaceAll("<", "&lt;")
+        .replaceAll(">", "&gt;")
+        .replaceAll('"', "&quot;")
+        .replaceAll("'", "&#039;");
     }
 
-
-    if (
-      "serviceWorker" in navigator &&
-      (
-        location.protocol === "https:" ||
-        location.hostname === "localhost"
-      )
-    ) {
-
-      window.addEventListener(
-        "load",
-        () => {
-
-          navigator.serviceWorker
-            .register("./sw.js")
-
-            .then(() =>
-              updateSaveStatus(
-                "Offline-ready"
-              )
-            )
-
-            .catch(() =>
-              updateSaveStatus(
-                "Auto-saved"
-              )
-            );
-
-        }
-      );
-
+    // Register the offline service worker when served from HTTPS or localhost.
+    if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .then(() => updateSaveStatus("Offline-ready"))
+          .catch(() => updateSaveStatus("Auto-saved"));
+      });
     }
 
-
-    if (
-      location.protocol === "https:"
-    ) {
-
-      document.getElementById(
-        "installNote"
-      ).style.display =
-        "block";
-
+    // Show installation guidance where appropriate.
+    if (location.protocol === "https:") {
+      document.getElementById("installNote").style.display = "block";
     }
-
 
     renderTracker();
-
   </script>
-
 </body>
 </html>
