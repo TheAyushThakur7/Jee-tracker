@@ -150,11 +150,7 @@
     .week-title { font-size: 18px; font-weight: 800; }
     .week-date { color: var(--muted); font-size: 13px; margin-top: 4px; }
 
-    .subjects { display: grid; grid-template-columns: 1fr 1fr; }
-
-    .maths-deep, .maths-coverage { border-top: 1px solid var(--border); }
-
-    .maths-coverage { background: rgba(23, 34, 58, 0.18); }
+    .subjects { display: grid; grid-template-columns: repeat(3, 1fr); }
 
     .subject { padding: 17px 18px; }
 
@@ -241,8 +237,6 @@
         border-top: 1px solid var(--border);
       }
 
-      .maths-deep, .maths-coverage { border-top: 1px solid var(--border); }
-
       .progress-card {
         position: relative;
         top: 0;
@@ -267,7 +261,7 @@
     <section class="hero">
       <div class="eyebrow">JEE Main • 14 Week Tracker</div>
       <h1>Physics + Chemistry + Mathematics</h1>
-      <p>Physics + Chemistry: full Main-level coverage. Maths: full syllabus, with deeper practice on high-priority chapters and Main-level theory on the rest.</p>
+      <p>Physics + Chemistry: full Main-level coverage. Maths: 7 detailed lectures + DPP + revision + PYQs every week.</p>
     </section>
 
     <section class="progress-card">
@@ -281,7 +275,7 @@
       </div>
 
       <div class="progress-info">
-        <span id="progressCount">0 / 73 topics completed</span>
+        <span id="progressCount">0 / 54 topics completed</span>
         <span id="saveStatus">Auto-saved</span>
       </div>
 
@@ -303,113 +297,102 @@
   <script>
     const weeks = [
       {
-        week: "WEEK 1", dates: "Sept 24 – Sept 30", title: "BASE BUILDING",
+        week: "WEEK 1", dates: "Sept 26 – Oct 2", title: "BASE BUILDING",
         physics: ["Electrostatics", "Units & Measurements (Errors)"],
         chemistry: ["Some Basic Concepts in Chemistry (Mole Concept)", "Classification of Elements & Periodicity"],
-        mathsDeep: ["Sets, Relations & Functions"],
-        mathsCoverage: ["Trigonometry (Identities & Functions) "]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 2", dates: "Oct 1 – Oct 7", title: "CORE MECHANICS & STRUCTURE",
+        week: "WEEK 2", dates: "Oct 3 – Oct 9", title: "CORE MECHANICS & STRUCTURE",
         physics: ["Current Electricity"],
         chemistry: ["Atomic Structure", "Chemical Bonding & Molecular Structure"],
-        mathsDeep: ["Quadratic Equations", "Complex Numbers"],
-        mathsCoverage: ["Permutations & Combinations"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 3", dates: "Oct 8 – Oct 14", title: "MAGNETISM & THERMO",
+        week: "WEEK 3", dates: "Oct 10 – Oct 16", title: "MAGNETISM & THERMO",
         physics: ["Magnetic Effects of Current & Magnetism"],
         chemistry: ["Chemical Thermodynamics"],
-        mathsDeep: ["Matrices & Determinants", "Sequence & Series"],
-        mathsCoverage: ["Binomial Theorem"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 4", dates: "Oct 15 – Oct 21", title: "INDUCTION & EQUILIBRIUM",
+        week: "WEEK 4", dates: "Oct 17 – Oct 23", title: "INDUCTION & EQUILIBRIUM",
         physics: ["Electromagnetic Induction & Alternating Current"],
         chemistry: ["Equilibrium (Ionic + Chemical)"],
-        mathsDeep: ["Limits, Continuity & Differentiability"],
-        mathsCoverage: ["Statistics"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 5", dates: "Oct 22 – Oct 28", title: "OPTICS & INORGANIC I",
+        week: "WEEK 5", dates: "Oct 24 – Oct 30", title: "OPTICS & INORGANIC I",
         physics: ["Optics (Ray + Wave)"],
         chemistry: ["Coordination Compounds", "d- and f-Block Elements"],
-        mathsDeep: ["Applications of Derivatives"],
-        mathsCoverage: ["Inverse Trigonometry + Trigonometric Equations"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 6", dates: "Oct 29 – Nov 4", title: "HEAVY MECHANICS & INORGANIC II",
+        week: "WEEK 6", dates: "Oct 31 – Nov 6", title: "HEAVY MECHANICS & INORGANIC II",
         physics: ["Rotational Motion"],
         chemistry: ["p-Block Elements"],
-        mathsDeep: ["Indefinite Integration"],
-        mathsCoverage: ["Differential Equations"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 7", dates: "Nov 5 – Nov 11", title: "HEAT & ORGANIC BASE",
+        week: "WEEK 7", dates: "Nov 7 – Nov 13", title: "HEAT & ORGANIC BASE",
         physics: ["Thermodynamics", "Kinetic Theory of Gases"],
         chemistry: ["Some Basic Principles of Organic Chemistry"],
-        mathsDeep: ["Definite Integration & Area Under Curves"],
-        mathsCoverage: ["Revision: Binomial + Sequence & Series"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 8", dates: "Nov 12 – Nov 18", title: "KINEMATICS & ORGANIC II",
+        week: "WEEK 8", dates: "Nov 14 – Nov 20", title: "KINEMATICS & ORGANIC II",
         physics: ["Kinematics", "Laws of Motion"],
         chemistry: ["Hydrocarbons", "Organic Compounds Containing Halogens"],
-        mathsDeep: ["Straight Lines", "Circle"],
-        mathsCoverage: ["Coordinate Geometry Basics & Locus"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 9", dates: "Nov 19 – Nov 25", title: "MODERN PHYSICS I & ORGANIC III",
+        week: "WEEK 9", dates: "Nov 21 – Nov 27", title: "MODERN PHYSICS I & ORGANIC III",
         physics: ["Work, Energy & Power", "Dual Nature of Matter & Radiation"],
         chemistry: ["Organic Compounds Containing Oxygen"],
-        mathsDeep: ["Parabola", "Ellipse & Hyperbola"],
-        mathsCoverage: ["Conic Sections: Main-level Formula Revision"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 10", dates: "Nov 26 – Dec 2", title: "MODERN PHYSICS II & ORGANIC IV",
+        week: "WEEK 10", dates: "Nov 28 – Dec 4", title: "MODERN PHYSICS II & ORGANIC IV",
         physics: ["Atoms & Nuclei", "Electronic Devices (Semiconductors)"],
         chemistry: ["Organic Compounds Containing Nitrogen", "Purification & Characterisation of Organic Compounds"],
-        mathsDeep: ["Vector Algebra", "Three Dimensional Geometry"],
-        mathsCoverage: ["Statistics: Main-level PYQs"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 11", dates: "Dec 3 – Dec 9", title: "MATTER & PHYSICAL CHEM I",
+        week: "WEEK 11", dates: "Dec 5 – Dec 11", title: "MATTER & PHYSICAL CHEM I",
         physics: ["Properties of Solids & Liquids"],
         chemistry: ["Solutions", "Chemical Kinetics"],
-        mathsDeep: ["Probability"],
-        mathsCoverage: ["Mathematical Revision: Functions + Quadratic + Complex"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 12", dates: "Dec 10 – Dec 16", title: "WAVES & PHYSICAL CHEM II",
+        week: "WEEK 12", dates: "Dec 12 – Dec 18", title: "WAVES & PHYSICAL CHEM II",
         physics: ["Oscillations & Waves"],
         chemistry: ["Redox Reactions & Electrochemistry", "Biomolecules"],
-        mathsDeep: ["Full Calculus Revision + Mixed Main PYQs"],
-        mathsCoverage: ["Full Algebra Revision + Mixed Main PYQs"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 13", dates: "Dec 17 – Dec 23", title: "GRAVITY & PRACTICAL",
+        week: "WEEK 13", dates: "Dec 19 – Dec 25", title: "GRAVITY & PRACTICAL",
         physics: ["Gravitation", "Electromagnetic Waves"],
         chemistry: ["Principles Related to Practical Chemistry"],
-        mathsDeep: ["Full Coordinate + Vector/3D Revision + Mixed Main PYQs"],
-        mathsCoverage: ["Trigonometry + Statistics + Differential Equations Revision"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       },
       {
-        week: "WEEK 14", dates: "Dec 24 – Jan 1", title: "FINAL SWEEP • 9 DAYS",
+        week: "WEEK 14", dates: "Dec 26 – Jan 3", title: "FINAL SWEEP • 9 DAYS",
         physics: ["Experimental Skills"],
         chemistry: ["Final Backlog Sweep & Buffer"],
-        mathsDeep: ["High-Priority Maths Final Sweep + 2–3 Years PYQs"],
-        mathsCoverage: ["Remaining Maths Syllabus Sweep + Formula Revision"]
+        maths: ["7 detailed lectures + DPP + revision + PYQs"]
       }
     ];
 
     const STORAGE_KEY = "jee-main-pc-tracker-v2";
 
+    function mathTopicKey(week, index) {
+      return `__math__${week.week}__${index}`;
+    }
+
     const allTopics = [];
     weeks.forEach(week => {
       week.physics.forEach(topic => allTopics.push(topic));
       week.chemistry.forEach(topic => allTopics.push(topic));
-      week.mathsDeep.forEach(topic => allTopics.push(topic));
-      week.mathsCoverage.forEach(topic => allTopics.push(topic));
+      week.maths.forEach((topic, index) => allTopics.push(mathTopicKey(week, index)));
     });
 
     const totalTopics = allTopics.length;
@@ -460,13 +443,9 @@
                 <h3 class="subject-title">Chemistry</h3>
                 ${renderTopics(week.chemistry, progress)}
               </div>
-              <div class="subject maths-deep">
-                <h3 class="subject-title">Maths · Deep Practice</h3>
-                ${renderTopics(week.mathsDeep, progress)}
-              </div>
-              <div class="subject maths-coverage">
-                <h3 class="subject-title">Maths · Main Theory / Coverage</h3>
-                ${renderTopics(week.mathsCoverage, progress)}
+              <div class="subject">
+                <h3 class="subject-title">Maths</h3>
+                ${renderTopics(week.maths, progress, week.week)}
               </div>
             </div>
           </section>
@@ -477,15 +456,16 @@
       updateProgress();
     }
 
-    function renderTopics(topics, progress) {
-      return topics.map(topic => {
-        const completed = progress[topicKey(topic)] === true;
+    function renderTopics(topics, progress, weekKey = null) {
+      return topics.map((topic, index) => {
+        const key = weekKey ? mathTopicKey({ week: weekKey }, index) : topicKey(topic);
+        const completed = progress[key] === true;
 
         return `
           <div class="topic ${completed ? "completed" : ""}" data-topic="${escapeHtml(topic)}">
             <button
               class="check-button ${completed ? "completed" : ""}"
-              onclick='toggleTopic(${JSON.stringify(topic)})'
+              onclick='toggleTopic(${JSON.stringify(key)})'
               aria-label="Mark ${escapeHtml(topic)} complete"
             >${completed ? "✓" : ""}</button>
             <span class="topic-name">${escapeHtml(topic)}</span>
